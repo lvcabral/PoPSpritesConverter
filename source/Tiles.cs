@@ -605,8 +605,6 @@ namespace popsc
                 {
                     new Object[4] {tilesPath, @"walls\right stack main.bmp", new int[2] {0, 16}, false},
                     new Object[4] {tilesPath, @"walls\right stack base.bmp", new int[2] {0, 76}, false},
-                    new Object[4] {tilesPath, @"walls\divider01.bmp", new int[2] {2, 58}, true},
-                    new Object[4] {tilesPath, @"walls\divider02.bmp", new int[2] {12, 37}, true}
                 };
                 if (!buildTile(files, spritesPath, "WWS.png")) return false;
                 files = new Object[]
@@ -615,6 +613,14 @@ namespace popsc
                     new Object[4] {tilesPath, @"walls\centre stack base.bmp", new int[2] {0, 76}, false}
                 };
                 if (!buildTile(files, spritesPath, "WWW.png")) return false;
+
+                Util.convertBitmap(Path.Combine(tilesPath, @"walls\random block.bmp"), Path.Combine(spritesPath, type + "_wall_random.png"));
+                Util.convertBitmap(Path.Combine(tilesPath, @"walls\divider01.bmp"), Path.Combine(spritesPath, type + "_wall_divider_1.png"));
+                Util.convertBitmap(Path.Combine(tilesPath, @"walls\divider02.bmp"), Path.Combine(spritesPath, type + "_wall_divider_2.png"));
+                Util.convertBitmap(Path.Combine(tilesPath, @"walls\mark01.bmp"), Path.Combine(spritesPath, type + "_wall_mark_1.png"));
+                Util.convertBitmap(Path.Combine(tilesPath, @"walls\mark02.bmp"), Path.Combine(spritesPath, type + "_wall_mark_2.png"));
+                Util.convertBitmap(Path.Combine(tilesPath, @"walls\mark03.bmp"), Path.Combine(spritesPath, type + "_wall_mark_3.png"));
+                Util.convertBitmap(Path.Combine(tilesPath, @"walls\mark04.bmp"), Path.Combine(spritesPath, type + "_wall_mark_4.png"));
             }
             else if (wall == palaceWall.changePalette)
             {
