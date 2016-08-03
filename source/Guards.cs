@@ -162,6 +162,8 @@ namespace popsc
                 dict.Add(type + "-22.png", "res773.bmp");
                 dict.Add(type + "-23.png", "res774.bmp");
                 dict.Add(type + "-24.png", "res775.bmp");
+                dict.Add(type + "-27.png", "spiked.bmp");
+                dict.Add(type + "-28.png", "chopped.bmp");
                 if (type != "skeleton")
                 {
                     dict.Add(type + "-29.png", "res779.bmp");

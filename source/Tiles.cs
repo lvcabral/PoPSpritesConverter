@@ -447,20 +447,21 @@ namespace popsc
             {
                 files = new Object[]
                 {
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 0}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 4}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 8}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 12}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 16}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 20}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 24}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 28}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 32}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 36}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 40}, false},
-                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 44}, false}
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, -3}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 1}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 5}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 9}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 13}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 17}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 21}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 25}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 29}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 33}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 37}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 41}, false},
+                    new Object[4] {tilesPath, @"level door\door bottom.bmp", new int[2] {0, 45}, false}
                 };
-                if (!buildTile(files, spritesPath, type + "_door.png", 42, 50)) return false;
+                if (!buildTile(files, spritesPath, type + "_door.png", 42, 51, false)) return false;
             }
             else
             {
@@ -809,7 +810,7 @@ namespace popsc
             return true;
         }
 
-        internal static Boolean buildTile(Object[] files, string path, string output, int width = -1, int height = -1)
+        internal static Boolean buildTile(Object[] files, string path, string output, int width = -1, int height = -1, bool relativeNegative = true)
         {
             // Dimentions
             if (width == -1)
@@ -840,7 +841,7 @@ namespace popsc
                             image = Image.FromFile(bmpPath);
                         }
                         int[] position = (int[])file[2];
-                        if (position[1] < 0)
+                        if (position[1] < 0 && relativeNegative)
                         {
                             y = height - image.Height + position[1];
                         }
