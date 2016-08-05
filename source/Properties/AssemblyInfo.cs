@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PoP 1 Sprites Converter")]
-[assembly: AssemblyDescription("Convert bmp extracted from PoP 1 dat files into transparent png sprites")]
+[assembly: AssemblyDescription("Convert bmp extracted from PoP 1 dat files into transparent png sprite sheets")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Marcelo Lv Cabral")]
 [assembly: AssemblyProduct("PoP 1 Sprites Converter")]
