@@ -1,4 +1,30 @@
-﻿using System;
+﻿#region MIT License
+
+/*
+ * Copyright (c) 2016 Marcelo Lv Cabral (http://github.com/lvcabral)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software 
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+ * 
+ */
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -22,8 +48,10 @@ namespace popsc
             Object[] files, file;
             List<Object[]> parts;
             currentType = type;
+            Util.images = new List<string>();
             string tilesPath = Path.Combine(inputPath, "v" + type);
             string objectsPath = Path.Combine(inputPath, "prince");
+            string sheetPath = Path.Combine(outputPath, type);
             string spritesPath = Path.Combine(outputPath, @"tiles\" + type);
             if (!Directory.Exists(spritesPath))
             {
@@ -654,17 +682,21 @@ namespace popsc
                 int res = 373;
                 for (int c = 0; c < 15; c++)
                 {
+                    string output;
                     if (c < 9)
                     {
-                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res" + res.ToString() + ".bmp"), Path.Combine(spritesPath, "W_" + c.ToString() + ".png"))) return false;
+                        output = Path.Combine(spritesPath, "W_" + c.ToString() + ".png");
+                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res" + res.ToString() + ".bmp"), output)) return false;
                     }
                     else if (c < 12)
                     {
-                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res364.bmp"), Path.Combine(spritesPath, "W_" + c.ToString() + ".png"), false)) return false;
+                        output = Path.Combine(spritesPath, "W_" + c.ToString() + ".png");
+                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res364.bmp"), output, false)) return false;
                     }
                     else
                     {
-                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res363.bmp"), Path.Combine(spritesPath, "W_" + c.ToString() + ".png"), false)) return false;
+                        output = Path.Combine(spritesPath, "W_" + c.ToString() + ".png");
+                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res363.bmp"), output, false)) return false;
                     }
                 }
             }
@@ -806,8 +838,9 @@ namespace popsc
             if (!buildTile(files, spritesPath, type + "_30.png")) return false;
             files[1] = new Object[4] { tilesPath, @"floor panels\broken front.bmp", new int[2] { 0, 67 }, true };
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_30_fg.png")) return false;
+
             // Conversion is done!
-            return true;
+            return Util.packSprites(sheetPath + ".png", sheetPath + ".json"); ;
         }
 
         internal static Boolean buildTile(Object[] files, string path, string output, int width = -1, int height = -1, bool relativeNegative = true)
@@ -854,6 +887,7 @@ namespace popsc
                     }
                 }
                 bitmap.Save(Path.Combine(path, output));
+                Util.images.Add(Path.Combine(path, output));
                 Console.WriteLine("Tile built: {0}", Path.Combine(path, output));
             }
             catch (Exception ex)
@@ -918,6 +952,7 @@ namespace popsc
                     }
                 }
                 bitmap.Save(Path.Combine(path, output));
+                Util.images.Add(Path.Combine(path, output));
                 Console.WriteLine("Door built: {0}", Path.Combine(path, output));
             }
             catch (Exception ex)

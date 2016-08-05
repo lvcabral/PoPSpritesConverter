@@ -1,10 +1,33 @@
-﻿using System;
+﻿#region MIT License
+
+/*
+ * Copyright (c) 2016 Marcelo Lv Cabral (http://github.com/lvcabral)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software 
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+ * 
+ */
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace popsc
 {
@@ -12,6 +35,7 @@ namespace popsc
     {
         internal static bool convertKid(string inputPath, string outputPath)
         {
+            Util.images = new List<string>();
             bool result = true;
             // Local variables
             string bmpPath = "", bmpName = "", pngName, pngPath, genPath;
@@ -40,6 +64,8 @@ namespace popsc
                 }
                 ;
                 result = Util.clipBitmap(Path.Combine(pngPath, "kid-228.png"), Path.Combine(pngPath, "kid-0.png"), new Rectangle[1] { new Rectangle(0, 0, 11, 24) });
+                result = Util.packSprites(pngPath + ".png", pngPath + ".json");
+                if (!result) return result;
                 string pngSplash = Path.Combine(genPath, "kid-splash.png");
                 result = Util.convertBitmap(Path.Combine(bmpPath, @"objects\splash.bmp"), pngSplash);
                 Console.WriteLine("Kid splash converted: {0}", Path.Combine(genPath, pngSplash));

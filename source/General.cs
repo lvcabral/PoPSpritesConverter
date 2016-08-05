@@ -1,10 +1,35 @@
-﻿using System;
+﻿#region MIT License
+
+/*
+ * Copyright (c) 2016 Marcelo Lv Cabral (http://github.com/lvcabral)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software 
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+ * 
+ */
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace popsc
 {
@@ -14,7 +39,7 @@ namespace popsc
         {
             bool result = true;
             // Local variables
-            string bmpPath = "", bmpName = "", pngName;
+            string bmpPath = "", bmpName = "", pngName, sheetPath;
             string swordPath = Path.Combine(outputPath, "sword");
             if (!Directory.Exists(swordPath))
             {
@@ -36,6 +61,7 @@ namespace popsc
             };
             try
             {
+                Util.images = new List<string>();
                 for (int g = 0; g < types.Count(); g++)
                 {
                     Object[] type = (Object[])types[g];
@@ -49,16 +75,12 @@ namespace popsc
                         {
                             result = Util.convertBitmap(Path.Combine(bmpPath, bmpName), Path.Combine(swordPath, pngName));
                         }
-                        else if (type[1].ToString() == "fire")
-                        {
-                            result = Util.convertBitmap(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName));
-                        }
                         else if (type[1].ToString() == "blood")
                         {
                             colors = new Color[2] { Color.Black, Color.FromArgb(228, 0, 0) };
                             result = Util.convertBitmapPalette(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName), colors);
                         }
-                        else
+                        else if (type[1].ToString() == "bubble")
                         {
                             colors = new Color[2] { Color.Black, Color.FromArgb(224, 0, 48) };
                             result = Util.convertBitmapPalette(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_red.png"), colors);
@@ -67,15 +89,52 @@ namespace popsc
                             colors = new Color[2] { Color.Black, Color.FromArgb(85, 85, 255) };
                             result = Util.convertBitmapPalette(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_blue.png"), colors);
                         }
+                        else
+                        {
+                            result = Util.convertBitmap(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName));
+                        }
                         if (!result) break;
                         Console.WriteLine("General frame converted: {0}", Path.Combine(genPath, pngName));
                     }
+                    if (!result) break;
+                    if (type[1].ToString() == "sword")
+                    {
+                        sheetPath = Path.Combine(outputPath, "sword");
+                        result = Util.packSprites(sheetPath + ".png", sheetPath + ".json");
+                        Util.images = new List<string>();
+                    }                    
                     if (!result) break;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Error converting general: {0} {1}", Path.Combine(bmpPath, bmpName), ex.Message);
+                result = false;
+            }
+            sheetPath = Path.Combine(outputPath, "general");
+            try
+            {
+                // Add files generated in other objects
+                Util.images.Add(Path.Combine(genPath,"kid-splash.png"));
+                Util.images.Add(Path.Combine(genPath,"kid-live.png"));
+                Util.images.Add(Path.Combine(genPath,"kid-emptylive.png"));
+                string[] guards = new string[3] { "fatguard", "shadow", "vizier" };
+                for (int g = 0; g < 7; g++)
+                {
+                    Util.images.Add(Path.Combine(genPath, "guard" + (g + 1).ToString() +"-splash.png"));
+                    Util.images.Add(Path.Combine(genPath, "guard" + (g + 1).ToString() +"-live.png"));
+                    if (g < 3)
+                    {
+                        Util.images.Add(Path.Combine(genPath, guards[g] + "-splash.png"));
+                        Util.images.Add(Path.Combine(genPath, guards[g] + "-live.png"));
+                    }
+                }
+                // Create sprite sheet
+                result = Util.packSprites(sheetPath + ".png", sheetPath + ".json");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error packaging general sheet: {0} {1}", sheetPath + ".png", ex.Message);
                 result = false;
             }
 

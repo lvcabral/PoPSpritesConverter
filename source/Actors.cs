@@ -1,9 +1,33 @@
-﻿using System;
+﻿#region MIT License
+
+/*
+ * Copyright (c) 2016 Marcelo Lv Cabral (http://github.com/lvcabral)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software 
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+ * 
+ */
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace popsc
 {
@@ -13,18 +37,19 @@ namespace popsc
         {
             bool result = true;
             // Local variables
-            string bmpPath = "", bmpName = "", pngName, pngPath;
+            string bmpPath = "", bmpName = "", pngName, pngPath, sheetPath;
             Dictionary<string, string> dict;
             Object[] types = new Object[]
             {
                 new Object[2] {@"pv\princess", "princess"},
-                new Object[2] {@"pv\jaffar", "vizier"},
+                new Object[2] {@"pv\jaffar", "jaffar"},
                 new Object[2] {@"kid\mouse", "mouse"}
             };
             try
             {
                 for (int g = 0; g < types.Count(); g++)
                 {
+                    Util.images = new List<string>();
                     Object[] type = (Object[])types[g];
                     bmpPath = Path.Combine(inputPath, type[0].ToString());
                     dict = getResourceDict(type[1].ToString());
@@ -42,6 +67,9 @@ namespace popsc
                         Console.WriteLine("Actor frame converted: {0}", Path.Combine(pngPath, pngName));
                     }
                     if (!result) break;
+                    sheetPath = Path.Combine(outputPath, type[1].ToString());
+                    result = Util.packSprites(sheetPath + ".png", sheetPath + ".json");
+                    if (!result) break;
                 }
             }
             catch (Exception ex)
@@ -50,6 +78,7 @@ namespace popsc
                 result = false;
             }
 
+            // Conversion is done!
             return result;
         }
 
@@ -105,46 +134,46 @@ namespace popsc
                 dict.Add("princess-46.png", @"with mouse\frame13.bmp");
                 dict.Add("princess-47.png", @"with mouse\frame14.bmp");
             }
-            else if (type == "vizier")
+            else if (type == "jaffar")
             {
-                dict.Add("vizier-1.png", @"walking\frame01.bmp");
-                dict.Add("vizier-2.png", @"walking\frame02.bmp");
-                dict.Add("vizier-3.png", @"walking\frame03.bmp");
-                dict.Add("vizier-4.png", @"walking\frame04.bmp");
-                dict.Add("vizier-5.png", @"walking\frame05.bmp");
-                dict.Add("vizier-6.png", @"walking\frame06.bmp");
-                dict.Add("vizier-7.png", @"walking\frame07.bmp");
-                dict.Add("vizier-8.png", @"walking\frame08.bmp");
-                dict.Add("vizier-9.png", @"walking\frame09.bmp");
-                dict.Add("vizier-10.png", @"walking\frame10.bmp");
-                dict.Add("vizier-11.png", @"walking\frame11.bmp");
-                dict.Add("vizier-12.png", @"walking\frame12.bmp");
-                dict.Add("vizier-13.png", @"walking\frame13.bmp");
-                dict.Add("vizier-14.png", @"walking\frame14.bmp");
-                dict.Add("vizier-15.png", @"walking\frame15.bmp");
-                dict.Add("vizier-16.png", @"walking\frame16.bmp");
-                dict.Add("vizier-17.png", @"walking\frame17.bmp");
-                dict.Add("vizier-18.png", @"walking\frame18.bmp");
-                dict.Add("vizier-19.png", @"walking\frame19.bmp");
-                dict.Add("vizier-20.png", @"conjuring\frame20.bmp");
-                dict.Add("vizier-21.png", @"conjuring\frame21.bmp");
-                dict.Add("vizier-22.png", @"conjuring\frame22.bmp");
-                dict.Add("vizier-23.png", @"conjuring\frame23.bmp");
-                dict.Add("vizier-24.png", @"conjuring\frame24.bmp");
-                dict.Add("vizier-25.png", @"conjuring\frame25.bmp");
-                dict.Add("vizier-26.png", @"conjuring\frame26.bmp");
-                dict.Add("vizier-27.png", @"conjuring\frame27.bmp");
-                dict.Add("vizier-28.png", @"conjuring\frame28.bmp");
-                dict.Add("vizier-29.png", @"conjuring\frame29.bmp");
-                dict.Add("vizier-30.png", @"conjuring\frame30.bmp");
-                dict.Add("vizier-31.png", @"conjuring\frame31.bmp");
-                dict.Add("vizier-32.png", @"conjuring\frame32.bmp");
-                dict.Add("vizier-33.png", @"conjuring\frame33.bmp");
-                dict.Add("vizier-34.png", @"conjuring\frame34.bmp");
-                dict.Add("vizier-35.png", @"conjuring\frame35.bmp");
-                dict.Add("vizier-36.png", @"conjuring\frame36.bmp");
-                dict.Add("vizier-37.png", @"conjuring\frame37.bmp");
-                dict.Add("vizier-38.png", @"conjuring\frame38.bmp");
+                dict.Add("jaffar-1.png", @"walking\frame01.bmp");
+                dict.Add("jaffar-2.png", @"walking\frame02.bmp");
+                dict.Add("jaffar-3.png", @"walking\frame03.bmp");
+                dict.Add("jaffar-4.png", @"walking\frame04.bmp");
+                dict.Add("jaffar-5.png", @"walking\frame05.bmp");
+                dict.Add("jaffar-6.png", @"walking\frame06.bmp");
+                dict.Add("jaffar-7.png", @"walking\frame07.bmp");
+                dict.Add("jaffar-8.png", @"walking\frame08.bmp");
+                dict.Add("jaffar-9.png", @"walking\frame09.bmp");
+                dict.Add("jaffar-10.png", @"walking\frame10.bmp");
+                dict.Add("jaffar-11.png", @"walking\frame11.bmp");
+                dict.Add("jaffar-12.png", @"walking\frame12.bmp");
+                dict.Add("jaffar-13.png", @"walking\frame13.bmp");
+                dict.Add("jaffar-14.png", @"walking\frame14.bmp");
+                dict.Add("jaffar-15.png", @"walking\frame15.bmp");
+                dict.Add("jaffar-16.png", @"walking\frame16.bmp");
+                dict.Add("jaffar-17.png", @"walking\frame17.bmp");
+                dict.Add("jaffar-18.png", @"walking\frame18.bmp");
+                dict.Add("jaffar-19.png", @"walking\frame19.bmp");
+                dict.Add("jaffar-20.png", @"conjuring\frame20.bmp");
+                dict.Add("jaffar-21.png", @"conjuring\frame21.bmp");
+                dict.Add("jaffar-22.png", @"conjuring\frame22.bmp");
+                dict.Add("jaffar-23.png", @"conjuring\frame23.bmp");
+                dict.Add("jaffar-24.png", @"conjuring\frame24.bmp");
+                dict.Add("jaffar-25.png", @"conjuring\frame25.bmp");
+                dict.Add("jaffar-26.png", @"conjuring\frame26.bmp");
+                dict.Add("jaffar-27.png", @"conjuring\frame27.bmp");
+                dict.Add("jaffar-28.png", @"conjuring\frame28.bmp");
+                dict.Add("jaffar-29.png", @"conjuring\frame29.bmp");
+                dict.Add("jaffar-30.png", @"conjuring\frame30.bmp");
+                dict.Add("jaffar-31.png", @"conjuring\frame31.bmp");
+                dict.Add("jaffar-32.png", @"conjuring\frame32.bmp");
+                dict.Add("jaffar-33.png", @"conjuring\frame33.bmp");
+                dict.Add("jaffar-34.png", @"conjuring\frame34.bmp");
+                dict.Add("jaffar-35.png", @"conjuring\frame35.bmp");
+                dict.Add("jaffar-36.png", @"conjuring\frame36.bmp");
+                dict.Add("jaffar-37.png", @"conjuring\frame37.bmp");
+                dict.Add("jaffar-38.png", @"conjuring\frame38.bmp");
             }
             else if (type == "mouse")
             {

@@ -1,15 +1,110 @@
-﻿using System;
+﻿#region MIT License
+
+/*
+ * Copyright (c) 2016 Marcelo Lv Cabral (http://github.com/lvcabral)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software 
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+ * 
+ */
+
+#endregion
+
+using System.IO;
+using sspack;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 
 namespace popsc
 {
     internal class Util
     {
+        internal static List<string> images;
+        
+        internal static bool packSprites(string sheetFile, string mapFile = "")
+        {
+            bool result = true;
+            // generate our output
+            ImagePacker imagePacker = new ImagePacker();
+            Bitmap outputSheet;
+            Dictionary<string, Rectangle> outputMap;
+
+            try
+            {
+                // pack the image, generating a map only if desired
+                if (imagePacker.PackImage(images, false, true, 1024, 1024, 3, mapFile != "" , out outputSheet, out outputMap) == 0)
+                {
+                    outputSheet.Save(sheetFile);
+                    if (mapFile != "") saveMap(mapFile, outputMap);
+                    Console.WriteLine("Generated Sprite Sheet: {0}.", sheetFile);
+                }
+                else
+                {
+                    Console.WriteLine("There was an error making the image sheet {0}.", sheetFile);
+                    result = false;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error saving sheet: {0} {1}", sheetFile, e.Message);
+                result = false;
+            }
+            return result;
+        }
+
+        internal static void saveMap(string filename, Dictionary<string, Rectangle> map)
+        {
+            // copy the files list and sort alphabetically
+            string[] keys = new string[map.Count];
+            map.Keys.CopyTo(keys, 0);
+            List<string> outputFiles = new List<string>(keys);
+            outputFiles.Sort();
+            bool first = true;
+            using (StreamWriter writer = new StreamWriter(filename))
+            {
+                writer.WriteLine("{\"frames\": {");
+                foreach (var image in outputFiles)
+                {
+                    if (!first)
+                    {
+                        writer.WriteLine("},");
+                    }
+                    // get the destination rectangle
+                    Rectangle destination = map[image];
+
+                    // write out the destination rectangle for this bitmap
+                    writer.WriteLine(string.Format("\"{0}\":", Path.GetFileNameWithoutExtension(image)));
+                    writer.WriteLine("{");
+                    writer.WriteLine("\t\"frame\": {" + string.Format("\"x\":{0} ,\"y\":{1},\"w\":{2},\"h\":{3}",
+                                                                    destination.X,
+                                                                    destination.Y,
+                                                                    destination.Width,
+                                                                    destination.Height) + "}");
+                    first = false;
+                }
+                writer.WriteLine("}}");
+                writer.WriteLine("}");
+            }
+        }
+
         internal static Bitmap getTransparentBitmap(string filePath)
         {
             Bitmap bitmap = (Bitmap)Image.FromFile(filePath);
@@ -53,6 +148,7 @@ namespace popsc
                     bitmap = (Bitmap)Image.FromFile(input);
                 }
                 bitmap.Save(output);
+                images.Add(output);
             }
             catch (Exception e)
             {
@@ -76,6 +172,7 @@ namespace popsc
                 }
                 Bitmap xorbmp = BitmapXOR(shadow, bitmap);
                 xorbmp.Save(output);
+                images.Add(output);
             }
             catch (Exception e)
             {
@@ -99,6 +196,7 @@ namespace popsc
                     }
                 }
                 bitmap.Save(output);
+                images.Add(output);
             }
             catch (Exception e)
             {
@@ -118,6 +216,7 @@ namespace popsc
                 bitmap.Palette = palette;
                 if (transparent) bitmap.MakeTransparent(colors[0]);
                 bitmap.Save(output);
+                images.Add(output);
             }
             catch (Exception e)
             {
@@ -213,7 +312,6 @@ namespace popsc
 
         internal static byte ByteXOR(byte a, byte b)
         {
-
             byte A = (byte)(255 - a);
             byte B = (byte)(255 - b);
             return (byte)((a & B) | (A & b));

@@ -1,11 +1,34 @@
-﻿using System;
+﻿#region MIT License
+
+/*
+ * Copyright (c) 2016 Marcelo Lv Cabral (http://github.com/lvcabral)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the Software 
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+ * 
+ */
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace popsc
 {
@@ -15,7 +38,7 @@ namespace popsc
         {
             bool result = true;
             // Local variables
-            string bmpName = "", pngName, pngPath;
+            string bmpName = "", pngName, pngPath, sheetPath, mapPath;
             string bmpPath = Path.Combine(inputPath, "guards");
             string genPath = Path.Combine(outputPath, "general");
             if (!Directory.Exists(genPath))
@@ -27,6 +50,7 @@ namespace popsc
             {
                 for (int c = 0; c < 7; c++)
                 {
+                    Util.images = new List<string>();
                     pngPath = Path.Combine(outputPath, @"guards\guard" + (c + 1).ToString());
                     if (!Directory.Exists(pngPath))
                     {
@@ -42,7 +66,11 @@ namespace popsc
                         Console.WriteLine("Guard frame converted: {0}", Path.Combine(pngPath, pngName));
                     }
                     if (!result) break;
-                    string pngSplash = Path.Combine(genPath, "guard" + (c + 1).ToString() +"-splash.png");
+                    sheetPath = Path.Combine(outputPath, "guard" + (c + 1).ToString() + ".png");
+                    mapPath = c == 0 ? Path.Combine(outputPath, "guard.json") : "";
+                    result = Util.packSprites(sheetPath, mapPath);
+                    if (!result) break;
+                    string pngSplash = Path.Combine(genPath, "guard" + (c + 1).ToString() + "-splash.png");
                     result = Util.convertBitmapPalette(Path.Combine(bmpPath, "splash.bmp"),pngSplash, colors);
                     if (!result) break;
                     Console.WriteLine("Guard splash converted: {0}", Path.Combine(genPath, pngSplash));
@@ -65,7 +93,7 @@ namespace popsc
         {
             bool result = true;
             // Local variables
-            string bmpPath = "", bmpName = "", pngName, pngPath;
+            string bmpPath = "", bmpName = "", pngName, pngPath, sheetPath;
             string genPath = Path.Combine(outputPath, "general");
             if (!Directory.Exists(genPath))
             {
@@ -77,12 +105,13 @@ namespace popsc
                 new Object[2] {"fat","fatguard"},
                 new Object[2] {"shadow","shadow"},
                 new Object[2] {"skel","skeleton"},
-                new Object[2] {"vizier","jaffar"}
+                new Object[2] {"vizier","vizier"}
             };
             try
             {
                 for (int g = 0; g < types.Count(); g++)
                 {
+                    Util.images = new List<string>();
                     Object[] type = (Object[])types[g];
                     bmpPath = Path.Combine(inputPath, type[0].ToString());
                     pngPath = Path.Combine(outputPath, @"guards\" + type[1].ToString());
@@ -110,6 +139,9 @@ namespace popsc
                         if (!result) break;
                         Console.WriteLine("Guard frame converted: {0}", Path.Combine(pngPath, pngName));
                     }
+                    if (!result) break;
+                    sheetPath = Path.Combine(outputPath, type[1].ToString());
+                    result = Util.packSprites(sheetPath + ".png", sheetPath + ".json");
                     if (!result) break;
                     if (type[1].ToString() != "skeleton")
                     {
