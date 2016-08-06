@@ -39,7 +39,7 @@ namespace popsc
             Util.images = new List<string>();
             bool result = true;
             // Local variables
-            string bmpPath = "", bmpName = "", sheetPath;
+            string bmpPath = "", bmpName = "";
             string pngPath = Path.Combine(outputPath, "scenes");
             if (!Directory.Exists(pngPath))
             {
