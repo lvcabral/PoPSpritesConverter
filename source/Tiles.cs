@@ -295,15 +295,15 @@ namespace popsc
             files = parts.ToArray();
             if (!buildTile(files, spritesPath, type + "_10.png")) return false;
             if (!buildTile(new Object[] { files[0] }, spritesPath, type + "_10_fg.png")) return false;
-            files[1] = new Object[4] { objectsPath, @"potions\base\small dungeon.bmp", new int[2] { 22, 62 }, true };
+            files[1] = new Object[4] { objectsPath, @"potions\base\small dungeon.bmp", new int[2] { 22, -6 }, true };
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_1.png")) return false;
-            files[1] = new Object[4] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, 58 }, true };
+            files[1] = new Object[4] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, -6 }, true };
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_2.png")) return false;
-            files[1] = new Object[4] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, 58 }, true };
+            files[1] = new Object[4] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, -6 }, true };
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_3.png")) return false;
-            files[1] = new Object[4] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, 58 }, true };
+            files[1] = new Object[4] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, -6 }, true };
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_4.png")) return false;
-            files[1] = new Object[4] { objectsPath, @"potions\base\small dungeon.bmp", new int[2] { 22, 62 }, true };
+            files[1] = new Object[4] { objectsPath, @"potions\base\small dungeon.bmp", new int[2] { 22, -6 }, true };
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_5.png")) return false;
 
             // TILE_LOOSE_BOARD
@@ -585,7 +585,7 @@ namespace popsc
                 new Object[4] {tilesPath, @"floor panels\normal base.bmp", new int[2] {0, 76}, true},
                 new Object[4] {tilesPath, @"floor panels\normal left.bmp", new int[2] {0, 63}, true},
                 new Object[4] {tilesPath, @"floor panels\normal right.bmp", new int[2] {32, 63}, true},
-                new Object[4] {tilesPath, @"background\torch.bmp", new int[2] {32, 36}, true}
+                new Object[4] {tilesPath, @"background\torch.bmp", new int[2] {32, -28}, true}
             };
             if (!buildTile(files, spritesPath, type + "_19.png")) return false;
             if (!buildTile(new Object[] { files[0] }, spritesPath, type + "_19_fg.png")) return false;
@@ -708,7 +708,7 @@ namespace popsc
                 {
                     new Object[4] {tilesPath, @"floor panels\normal base.bmp", new int[2] {0, 76}, true},
                     new Object[4] {tilesPath, @"floor panels\skeleton left.bmp", new int[2] {0, 57}, true},
-                    new Object[4] {tilesPath, @"floor panels\skeleton right.bmp", new int[2] {32, 57}, true}
+                    new Object[4] {tilesPath, @"floor panels\skeleton right.bmp", new int[2] {32, -1}, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_21.png")) return false;
                 if (!buildTile(new Object[] { files[0] }, spritesPath, type + "_21_fg.png")) return false;
@@ -833,7 +833,7 @@ namespace popsc
                 new Object[4] {tilesPath, @"floor panels\normal base.bmp", new int[2] {0, 76}, true},
                 new Object[4] {tilesPath, @"floor panels\broken left.bmp", new int[2] {0, 63}, true},
                 new Object[4] {tilesPath, @"floor panels\broken right.bmp", new int[2] {32, 62}, true},
-                new Object[4] {tilesPath, @"background\torch.bmp", new int[2] {32, 36}, true}
+                new Object[4] {tilesPath, @"background\torch.bmp", new int[2] {32, -28}, true}
             };
             if (!buildTile(files, spritesPath, type + "_30.png")) return false;
             files[1] = new Object[4] { tilesPath, @"floor panels\broken front.bmp", new int[2] { 0, 67 }, true };
@@ -860,20 +860,27 @@ namespace popsc
             try
             {
                 bitmap = new Bitmap(width, height);
-                using (Graphics g = Graphics.FromImage(bitmap))
+                foreach (Object[] file in files)
                 {
-                    foreach (Object[] file in files)
+                    string bmpPath = Path.Combine(file[0].ToString(), file[1].ToString());
+                    if ((bool)file[3])
                     {
-                        string bmpPath = Path.Combine(file[0].ToString(), file[1].ToString());
-                        if ((bool)file[3])
-                        {
-                            image = Util.getTransparentBitmap(bmpPath);
-                        }
-                        else
-                        {
-                            image = Image.FromFile(bmpPath);
-                        }
-                        int[] position = (int[])file[2];
+                        image = Util.getTransparentBitmap(bmpPath);
+                    }
+                    else
+                    {
+                        image = Image.FromFile(bmpPath);
+                    }
+                    int[] position = (int[])file[2];
+                    if (image.Height > height)
+                    {
+                        int imgWidth = image.Width + position[0];
+                        y = 0;
+                        int imgHeight = image.Height + Math.Abs(position[1]);
+                        bitmap = new Bitmap(imgWidth, imgHeight);
+                    }
+                    else
+                    {
                         if (position[1] < 0 && relativeNegative)
                         {
                             y = height - image.Height + position[1];
@@ -882,9 +889,12 @@ namespace popsc
                         {
                             y = position[1];
                         }
-                        g.DrawImage(image, (float)position[0], y, (float)image.Width, (float)image.Height);
-                        if (image.Height > height) break;
                     }
+                    using (Graphics g = Graphics.FromImage(bitmap))
+                    {
+                        g.DrawImage(image, position[0], y, (float)image.Width, (float)image.Height);
+                    }
+                    if (image.Height > height) break;
                 }
                 bitmap.Save(Path.Combine(path, output));
                 Util.images.Add(Path.Combine(path, output));
