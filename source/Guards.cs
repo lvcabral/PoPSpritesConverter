@@ -38,6 +38,7 @@ namespace popsc
         {
             bool result = true;
             // Local variables
+            Color[] colors;
             string bmpName = "", pngName, pngPath, sheetPath, mapPath;
             string bmpPath = Path.Combine(inputPath, "guards");
             string genPath = Path.Combine(outputPath, "general");
@@ -56,7 +57,22 @@ namespace popsc
                     {
                         Directory.CreateDirectory(pngPath);
                     }
-                    Color[] colors = Util.readPalette(Path.Combine(inputPath, @"prince\binary\guard palettes.pal"), c);
+                    string palette = Path.Combine(inputPath, @"prince\binary\guard palettes.pal");
+                    if (File.Exists(palette))
+                    {
+                        colors = Util.readPalette(palette, c);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Warning! Could not found palette: {0}", palette);
+                        List<Color> entries = new List<Color>();
+                        entries.Add(Color.FromArgb(0, 0, 0));
+                        for (int i = 1; i < 112; i++)
+                        {
+                            entries.Add(Color.FromArgb(252, 0, 0));
+                        }
+                        colors = entries.ToArray();
+                    }
                     foreach (var file in dict)
                     {
                         bmpName = file.Value;
