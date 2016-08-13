@@ -51,22 +51,12 @@ namespace popsc
                     Console.WriteLine("Output folder does not exist!");
                     return;
                 }
-                Tiles.palaceWall pwm = Tiles.palaceWall.changePalette;
+                bool wda = false;
                 if (args.Length > 2)
                 {
-                    string[] param = args[2].Split('=');
-                    int value = -1;
-                    if (param.Length == 2 && param[0] == "-pwm" && int.TryParse(param[1], out value) )
+                    if (args[2].ToLower().Trim() == "-wda")
                     {
-                        if (value >= 0 && value <= 2)
-                        {
-                            pwm = (Tiles.palaceWall) value;
-                        }
-                        else
-                        {
-                            help();
-                            return;
-                        }
+                        wda = true;
                     }
                     else
                     {
@@ -76,7 +66,7 @@ namespace popsc
                 }
                 // Convert Sprites
                 bool ok = Tiles.convertTiles("dungeon", args[0], args[1]);
-                if (ok) ok = Tiles.convertTiles("palace", args[0], args[1], pwm);
+                if (ok) ok = Tiles.convertTiles("palace", args[0], args[1], wda);
                 if (ok) ok = Kid.convertKid(args[0], args[1]);
                 if (ok) ok = Guards.convertGuards(args[0], args[1]);
                 if (ok) ok = Guards.convertSpecialGuards(args[0], args[1]);
@@ -96,11 +86,9 @@ namespace popsc
         {
             Console.WriteLine("");
             Console.WriteLine("Usage:");
-            Console.WriteLine("popsc <PR resources path> <sprites output path> [-pwm=<palace marks mode>]");
+            Console.WriteLine("popsc <PR resources path> <sprites output path> [-wda]");
             Console.WriteLine("Optional parameter:");
-            Console.WriteLine("0 : Change palace wall marks palette to the 15th color of wall.pal (default)");
-            Console.WriteLine("1 : Keep palace wall marks pallete from the bmp files");
-            Console.WriteLine("2 : Special palace wall marks configuration for SNES Mods");
+            Console.WriteLine("-wda : Convert VPALACE wall images using wall-drawing algorithm mode");
         }
     }
 }

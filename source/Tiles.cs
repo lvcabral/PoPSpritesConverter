@@ -35,14 +35,8 @@ namespace popsc
     internal class Tiles
     {
         internal static string currentType;
-        internal enum palaceWall
-        {
-            changePalette,
-            keepPalette,
-            SNES
-        }
 
-        internal static bool convertTiles(string type, string inputPath, string outputPath, palaceWall wall = palaceWall.changePalette)
+        internal static bool convertTiles(string type, string inputPath, string outputPath, bool wda = false)
         {
             // Building Dungeon tiles
             Object[] files, file;
@@ -616,7 +610,7 @@ namespace popsc
             }
             if (!buildTile(files, spritesPath, type + "_wall_1.png")) return false;
 
-            if (type == "dungeon")
+            if (type == "dungeon" || wda)
             {
                 files = new Object[]
                 {
@@ -651,7 +645,7 @@ namespace popsc
                 Util.convertBitmap(Path.Combine(tilesPath, @"walls\mark03.bmp"), Path.Combine(spritesPath, type + "_wall_mark_3.png"));
                 Util.convertBitmap(Path.Combine(tilesPath, @"walls\mark04.bmp"), Path.Combine(spritesPath, type + "_wall_mark_4.png"));
             }
-            else if (wall == palaceWall.changePalette)
+            else 
             {
                 Color[] palette = Util.readPalette(Path.Combine(inputPath, @"vpalace\palettes\wall.pal"));
                 List<Color> clr = new List<Color>();
@@ -666,38 +660,6 @@ namespace popsc
                 {
                     if (!Util.convertBitmapPalette(Path.Combine(tilesPath, @"walls\res" + res.ToString() + ".bmp"), Path.Combine(spritesPath, "W_" + c.ToString() + ".png"), colors)) return false;
                     res++;
-                }
-            }
-            else if (wall == palaceWall.keepPalette)
-            {
-                int res = 363;
-                for (int c = 0; c < 15; c++)
-                {
-                    if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res" + res.ToString() + ".bmp"), Path.Combine(spritesPath, "W_" + c.ToString() + ".png"))) return false;
-                    res++;
-                }
-            }
-            else // SNES
-            {
-                int res = 373;
-                for (int c = 0; c < 15; c++)
-                {
-                    string output;
-                    if (c < 9)
-                    {
-                        output = Path.Combine(spritesPath, "W_" + c.ToString() + ".png");
-                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res" + res.ToString() + ".bmp"), output)) return false;
-                    }
-                    else if (c < 12)
-                    {
-                        output = Path.Combine(spritesPath, "W_" + c.ToString() + ".png");
-                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res364.bmp"), output, false)) return false;
-                    }
-                    else
-                    {
-                        output = Path.Combine(spritesPath, "W_" + c.ToString() + ".png");
-                        if (!Util.convertBitmap(Path.Combine(tilesPath, @"walls\res363.bmp"), output, false)) return false;
-                    }
                 }
             }
 
