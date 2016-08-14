@@ -8,12 +8,10 @@ The output is a set of individual frames organized in folders and the sprite she
 
 **Usage:**
 ```
-popsc <PR resources path> <sprites output path> [-pwm=<palace marks mode>]
+popsc <PR resources path> <sprites output path> [-wda]
 
 Optional parameter:
-0 : Change palace wall marks palette to the 15th color of wall.pal (default)
-1 : Keep palace wall marks pallete from the bmp files
-2 : Special palace wall marks configuration for SNES Mods
+-wda : Convert VPALACE wall images using wall-drawing algorithm mode
 ``` 
 
 This tool requires Microsoft .Net Framework 4.5 and incorporates code from the SpriteSheetPacker project (link below).
