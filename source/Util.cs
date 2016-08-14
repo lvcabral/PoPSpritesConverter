@@ -225,6 +225,27 @@ namespace popsc
             return result;
         }
 
+        internal static bool convertBitmapColor(string input, string output, Color color, int index = -1)
+        {
+            bool result = true;
+            try
+            {
+                Bitmap bitmap = (Bitmap)Image.FromFile(input);
+                ColorPalette palette = bitmap.Palette;
+                if (index < 0) index = palette.Entries.Count() - 1;
+                palette.Entries[index] = color;
+                bitmap.Palette = palette;
+                bitmap.MakeTransparent(palette.Entries[0]);
+                bitmap.Save(output);
+                images.Add(output);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error converting image palette: {0} {1}", input, e.Message);
+            }
+            return result;
+        }
+
         internal static Color[] readPalette(string filePath, int index = 0)
         {
             List<Color> entries = new List<Color>();

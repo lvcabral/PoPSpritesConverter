@@ -51,6 +51,7 @@ namespace popsc
                 Directory.CreateDirectory(genPath);
             }
             Color[] colors;
+            Color color;
             Dictionary<string, string> dict;
             Object[] types = new Object[]
             {
@@ -82,12 +83,12 @@ namespace popsc
                         }
                         else if (type[1].ToString() == "bubble")
                         {
-                            colors = new Color[2] { Color.Black, Color.FromArgb(224, 0, 48) };
-                            result = Util.convertBitmapPalette(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_red.png"), colors);
-                            colors = new Color[2] { Color.Black, Color.FromArgb(85, 255, 85) };
-                            result = Util.convertBitmapPalette(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_green.png"), colors);
-                            colors = new Color[2] { Color.Black, Color.FromArgb(85, 85, 255) };
-                            result = Util.convertBitmapPalette(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_blue.png"), colors);
+                            color = Color.FromArgb(224, 0, 48);
+                            result = Util.convertBitmapColor(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_red.png"), color);
+                            color = Color.FromArgb(85, 255, 85);
+                            result = Util.convertBitmapColor(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_green.png"), color);
+                            color = Color.FromArgb(85, 85, 255);
+                            result = Util.convertBitmapColor(Path.Combine(bmpPath, bmpName), Path.Combine(genPath, pngName + "_blue.png"), color);
                         }
                         else
                         {
