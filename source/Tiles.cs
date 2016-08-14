@@ -392,7 +392,8 @@ namespace popsc
                 files = new Object[]
                 {
                     new Object[4] {tilesPath, @"floor panels\normal base.bmp", new int[2] {0, 76}, true},
-                    new Object[4] {tilesPath, @"mirror\mirror and floor.bmp", new int[2] {0, 16}, true}
+                    new Object[4] {tilesPath, @"mirror\mirror and floor.bmp", new int[2] {0, 16}, true},
+                    new Object[4] {tilesPath, @"floor panels\normal right.bmp", new int[2] {32, 63}, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_13.png")) return false;
                 files[1] = new Object[4] { tilesPath, @"mirror\mirror.bmp", new int[2] { 0, 16 }, true };
