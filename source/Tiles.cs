@@ -700,12 +700,11 @@ namespace popsc
                 files = new Object[]
                 {
                     new Object[4] {tilesPath, @"floor panels\normal base.bmp", new int[2] {0, 76}, true},
-                    new Object[4] {tilesPath, @"background\bricks03.bmp", new int[2] { 32, -23 }, true },
                     new Object[4] {tilesPath, @"floor panels\normal left.bmp", new int[2] {0, 63}, true},
                     new Object[4] {tilesPath, @"floor panels\normal right.bmp", new int[2] {32, 63}, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_23.png")) return false;
-                if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_23_fg.png")) return false;
+                if (!buildTile(new Object[] { files[0] }, spritesPath, type + "_23_fg.png")) return false;
             }
 
             // TILE_BALCONY_RIGHT
@@ -714,12 +713,11 @@ namespace popsc
                 files = new Object[]
                 {
                     new Object[4] {tilesPath, @"floor panels\normal base.bmp", new int[2] {0, 76}, true},
-                    new Object[4] {tilesPath, @"background\bricks03.bmp", new int[2] { 32, -23 }, true },
                     new Object[4] {tilesPath, @"floor panels\normal left.bmp", new int[2] {0, 63}, true},
                     new Object[4] {tilesPath, @"floor panels\normal right.bmp", new int[2] {32, 63}, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_24.png")) return false;
-                if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_24_fg.png")) return false;
+                if (!buildTile(new Object[] { files[0] }, spritesPath, type + "_24_fg.png")) return false;
                 files = new Object[]
                 {
                     new Object[4] {tilesPath, @"balcony\upper left.bmp", new int[2] {0, 0}, true},
