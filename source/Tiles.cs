@@ -458,6 +458,7 @@ namespace popsc
                 new Object[4] {tilesPath, @"level door\frame lower left.bmp", new int[2] {0, 16}, true},
                 new Object[4] {tilesPath, @"level door\frame upper right.bmp", new int[2] {32, 0}, false},
                 new Object[4] {tilesPath, @"level door\frame lower right.bmp", new int[2] {32, 16}, true},
+                new Object[4] {tilesPath, @"level door\door top.bmp", new int[2] {8, -67}, true},
                 new Object[4] {tilesPath, @"level door\stairs.bmp", new int[2] {8, 14}, false},
                 new Object[4] {tilesPath, @"level door\floor.bmp", new int[2] {8, 59}, false}
             };
@@ -467,7 +468,8 @@ namespace popsc
                 {
                     new Object[4] {tilesPath, @"level door\frame upper left.bmp", new int[2] {0, 0}, true},
                     new Object[4] {tilesPath, @"level door\frame upper right.bmp", new int[2] {32, 0}, true},
-                    new Object[4] {tilesPath, @"level door\frame lower right.bmp", new int[2] {32, 16}, true}
+                    new Object[4] {tilesPath, @"level door\frame lower right.bmp", new int[2] {32, 16}, true},
+                    new Object[4] {tilesPath, @"level door\door top.bmp", new int[2] {8, -67}, true}
                 };
             if (!buildDoor(files, spritesPath, type + "_door_fg.png", -1, 16)) return false;
             if (type == "dungeon")
@@ -720,8 +722,8 @@ namespace popsc
                 if (!buildTile(new Object[] { files[0] }, spritesPath, type + "_24_fg.png")) return false;
                 files = new Object[]
                 {
-                    new Object[4] {tilesPath, @"balcony\upper left.bmp", new int[2] {0, 0}, true},
-                    new Object[4] {tilesPath, @"balcony\upper right.bmp", new int[2] {32, 0}, true },
+                    new Object[4] {tilesPath, @"balcony\upper left.bmp", new int[2] {0, -59}, true},
+                    new Object[4] {tilesPath, @"balcony\upper right.bmp", new int[2] {32, -59}, true },
                     new Object[4] {tilesPath, @"balcony\lower left.bmp", new int[2] {0, 20}, true},
                     new Object[4] {tilesPath, @"balcony\lower right.bmp", new int[2] {32, 20}, true}
                 };
@@ -916,8 +918,10 @@ namespace popsc
                         int[] position = (int[])file[2];
                         if (position[1] > 0)
                             y = (float)position[1] + offset;
-                        else
+                        else if (position[1] == 0)
                             y = start;
+                        else
+                            y = height - image.Height + position[1];
                         g.DrawImage(image, (float)position[0], y, (float)image.Width, (float)image.Height);
                     }
                     if (crop > 0)

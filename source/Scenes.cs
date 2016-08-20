@@ -110,6 +110,7 @@ namespace popsc
                     g.Clear(color);
                 }
                 bitmap.Save(output);
+                Util.images.Add(output);
             }
             catch (Exception ex)
             {
