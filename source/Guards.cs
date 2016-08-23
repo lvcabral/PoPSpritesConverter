@@ -67,7 +67,7 @@ namespace popsc
                         Console.WriteLine("Warning! Could not found palette: {0}", palette);
                         List<Color> entries = new List<Color>();
                         entries.Add(Color.FromArgb(0, 0, 0));
-                        for (int i = 1; i < 112; i++)
+                        for (int i = 1; i < 16; i++)
                         {
                             entries.Add(Color.FromArgb(252, 0, 0));
                         }
@@ -83,7 +83,7 @@ namespace popsc
                     }
                     if (!result) break;
                     sheetPath = Path.Combine(outputPath, "guard" + (c + 1).ToString() + ".png");
-                    mapPath = c == 0 ? Path.Combine(outputPath, "guard.json") : "";
+                    mapPath = (c == 0 ? Path.Combine(outputPath, "guard.json") : "");
                     result = Util.packSprites(sheetPath, mapPath);
                     if (!result) break;
                     string pngSplash = Path.Combine(genPath, "guard" + (c + 1).ToString() + "-splash.png");
