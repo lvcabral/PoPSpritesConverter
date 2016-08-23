@@ -67,6 +67,13 @@ namespace popsc
                 // Convert Sprites
                 bool ok = Tiles.convertTiles("dungeon", args[0], args[1]);
                 if (ok) ok = Tiles.convertTiles("palace", args[0], args[1], wda);
+                if (ok && File.Exists(Path.Combine(args[0], @"prince\binary\level color variations.pal")))
+                {
+                    if (ok) ok = Tiles.convertTiles("dungeon", args[0], args[1], wda, 0);
+                    if (ok) ok = Tiles.convertTiles("dungeon", args[0], args[1], wda, 1);
+                    if (ok) ok = Tiles.convertTiles("dungeon", args[0], args[1], wda, 2);
+                    if (ok) ok = Tiles.convertTiles("palace", args[0], args[1], wda, 3);
+                }
                 if (ok) ok = Kid.convertKid(args[0], args[1]);
                 if (ok) ok = Guards.convertGuards(args[0], args[1]);
                 if (ok) ok = Guards.convertSpecialGuards(args[0], args[1]);

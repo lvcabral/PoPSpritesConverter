@@ -79,8 +79,8 @@ namespace popsc
                         result = Util.convertBitmap(Path.Combine(bmpPath, "room pillar.bmp"), Path.Combine(pngPath, "room-pillar.png"));
                         Object[] files = new Object[]
                         {
-                            new Object[4] {bmpPath, "room.bmp", new int[2] {0, 0}, true},
-                            new Object[4] {bmpPath, "room bed.bmp", new int[2] {0, 142}, true}
+                            new Object[5] {bmpPath, "room.bmp", new int[2] {0, 0}, true, false},
+                            new Object[5] {bmpPath, "room bed.bmp", new int[2] {0, 142}, true, false}
                         };
                         Tiles.buildTile(files, pngPath, "princess-room.png", 320, 200);
                         Console.WriteLine("Scene frame built: {0}", Path.Combine(pngPath, "princess-room.png"));

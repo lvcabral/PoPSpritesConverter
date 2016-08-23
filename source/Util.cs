@@ -133,6 +133,24 @@ namespace popsc
             return bitmap;
         }
 
+        internal static Bitmap getBitmapPalette(string input, Color[] colors, bool transparent = true)
+        {
+            Bitmap bitmap = null;
+            try
+            {
+                bitmap = (Bitmap)Image.FromFile(input);
+                ColorPalette palette = bitmap.Palette;
+                for (int i = 0; i < Math.Min(palette.Entries.Count(), colors.Count()); i++) palette.Entries[i] = colors[i];
+                bitmap.Palette = palette;
+                if (transparent) bitmap.MakeTransparent(colors[0]);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error converting image palette: {0} {1}", input, e.Message);
+            }
+            return bitmap;
+        }
+
         internal static bool convertBitmap(string input, string output, bool transparent = true)
         {
             bool result = true;
