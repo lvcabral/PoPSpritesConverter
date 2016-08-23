@@ -47,9 +47,9 @@ namespace popsc
             {
                 new Object[3] {@"main titles\main background.bmp", "intro-screen.png", false},
                 new Object[3] {@"main titles\game name.bmp", "message-game-name.png", true},
-                new Object[3] {@"main titles\presents.bmp", "message-presents.png", true},
-                new Object[3] {@"main titles\author.bmp", "message-author.png", true},
-                new Object[3] {@"main titles\copyright.bmp", "message-port.png", true},
+                new Object[3] {@"main titles\presents.bmp", "message-presents.png", false},
+                new Object[3] {@"main titles\author.bmp", "message-author.png", false},
+                new Object[3] {@"main titles\copyright.bmp", "message-port.png", false},
                 new Object[3] {@"main titles\text background.bmp", "text-screen.png", true},
                 new Object[3] {@"texts\in the absence.bmp", "text-in-the-absence.png", true},
                 new Object[3] {@"texts\marry jaffar.bmp", "text-marry-jaffar.png", true},
