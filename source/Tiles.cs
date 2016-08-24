@@ -304,16 +304,10 @@ namespace popsc
             files = parts.ToArray();
             if (!buildTile(files, spritesPath, type + "_10.png")) return false;
             if (!buildTile(new Object[] { files[0] }, spritesPath, type + "_10_fg.png")) return false;
-            files[1] = new Object[5] { objectsPath, @"potions\base\small dungeon.bmp", new int[2] { 22, -6 }, true, false};
+            files[1] = new Object[5] { objectsPath, @"potions\base\small " + type + ".bmp", new int[2] { 22, -6 }, true, false};
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_1.png")) return false;
-            files[1] = new Object[5] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, -6 }, true, false};
+            files[1] = new Object[5] { objectsPath, @"potions\base\big " + type + ".bmp", new int[2] { 22, -6 }, true, false };
             if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_2.png")) return false;
-            files[1] = new Object[5] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, -6 }, true, false};
-            if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_3.png")) return false;
-            files[1] = new Object[5] { objectsPath, @"potions\base\big dungeon.bmp", new int[2] { 22, -6 }, true, false};
-            if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_4.png")) return false;
-            files[1] = new Object[5] { objectsPath, @"potions\base\small dungeon.bmp", new int[2] { 22, -6 }, true, false};
-            if (!buildTile(new Object[] { files[0], files[1] }, spritesPath, type + "_10_fg_5.png")) return false;
 
             // TILE_LOOSE_BOARD
             parts = new List<Object[]>
@@ -542,8 +536,8 @@ namespace popsc
             {
                 files = new Object[]
                 {
-                    new Object[5] {tilesPath, @"chomper\frame02 top.bmp", new int[2] {0, 16}, true, true},
-                    new Object[5] {tilesPath, @"chomper\frame02 bottom.bmp", new int[2] {0, 46}, true, true}
+                    new Object[5] {tilesPath, @"chomper\frame02 top.bmp", new int[2] {0, -40}, true, true},
+                    new Object[5] {tilesPath, @"chomper\frame02 bottom.bmp", new int[2] {0, -3}, true, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_slicer_1.png")) return false;
             }
@@ -566,8 +560,8 @@ namespace popsc
             {
                 files = new Object[]
                 {
-                    new Object[5] {tilesPath, @"chomper\frame05 top.bmp", new int[2] {0, 16}, true, true},
-                    new Object[5] {tilesPath, @"chomper\frame05 bottom.bmp", new int[2] {0, 59}, true, true}
+                    new Object[5] {tilesPath, @"chomper\frame05 top.bmp", new int[2] {0, -53}, true, true},
+                    new Object[5] {tilesPath, @"chomper\frame05 bottom.bmp", new int[2] {0, -3}, true, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_slicer_4.png")) return false;
             }
@@ -582,8 +576,8 @@ namespace popsc
             {
                 files = new Object[]
                 {
-                    new Object[5] {tilesPath, @"chomper\frame01 top.bmp", new int[2] {0, 16}, true, true},
-                    new Object[5] {tilesPath, @"chomper\frame01 bottom.bmp", new int[2] {0, 55}, true, true}
+                    new Object[5] {tilesPath, @"chomper\frame01 top.bmp", new int[2] {0, -50}, true, true},
+                    new Object[5] {tilesPath, @"chomper\frame01 bottom.bmp", new int[2] {0, -3}, true, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_slicer_5.png")) return false;
             }
