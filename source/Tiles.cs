@@ -209,7 +209,7 @@ namespace popsc
             // TILE_DROP_BUTTON
             parts = new List<Object[]>
             {
-                new Object[5] {tilesPath, @"floor panels\closer base unpressed.bmp", new int[2] {0, 76}, true, true},
+                new Object[5] {tilesPath, @"floor panels\closer base unpressed.bmp", new int[2] {0, 76}, false, true},
                 new Object[5] {tilesPath, @"floor panels\normal left.bmp", new int[2] {0, 63}, true, true},
                 new Object[5] {tilesPath, @"floor panels\normal right.bmp", new int[2] {32, 63}, true, true}
             };
@@ -259,7 +259,7 @@ namespace popsc
                     new Object[5] {tilesPath, @"carpets\style01 top.bmp", new int[2] {32, 4}, true, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_7_1.png")) return false;
-                Rectangle[] rects = new Rectangle[2] { new Rectangle(0, 0, 25, 76), new Rectangle(40, 0, 24, 79) };
+                Rectangle[] rects = new Rectangle[4] { new Rectangle(0, 0, 25, 76), new Rectangle(0, 0, 64, 16), new Rectangle(40, 0, 24, 79), new Rectangle(32, 71, 8, 8) };
                 Util.clipBitmap(Path.Combine(spritesPath, type + "_7_1.png"), Path.Combine(spritesPath, type + "_7_1_fg.png"), rects);
                 files = new Object[]
                 {
@@ -373,7 +373,7 @@ namespace popsc
                     new Object[5] {tilesPath, @"carpets\style01 top.bmp", new int[2] {32, 4}, true, true}
                 };
                 if (!buildTile(files, spritesPath, type + "_12_1.png")) return false;
-                Rectangle[] rects = new Rectangle[1] { new Rectangle(40, 0, 24, 79) };
+                Rectangle[] rects = new Rectangle[3] { new Rectangle(0, 0, 64, 16), new Rectangle(40, 0, 24, 79), new Rectangle(32, 71, 8, 8) };
                 Util.clipBitmap(Path.Combine(spritesPath, type + "_12_1.png"), Path.Combine(spritesPath, type + "_12_1_fg.png"), rects);
                 files = new Object[]
                 {
@@ -429,7 +429,7 @@ namespace popsc
             // TILE_RAISE_BUTTON
             parts = new List<Object[]>
             {
-                new Object[5] {tilesPath, @"floor panels\opener base unpressed.bmp", new int[2] {0, 76}, true, true},
+                new Object[5] {tilesPath, @"floor panels\opener base unpressed.bmp", new int[2] {0, 76}, false, true},
                 new Object[5] {tilesPath, @"floor panels\opener left unpressed.bmp", new int[2] {0, 62}, true, true},
                 new Object[5] {tilesPath, @"floor panels\normal right.bmp", new int[2] {32, 62}, true, true}
             };
