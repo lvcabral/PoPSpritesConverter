@@ -17,7 +17,8 @@ Optional parameter:
 This tool requires Microsoft .Net Framework 4.5 and incorporates code from the SpriteSheetPacker project (link below).
 
 ### Links
-* PR 1.3.1 pre-release 2 - http://forum.princed.org/viewtopic.php?f=70&t=3583
+* PR 1.3.1 pre-release 2 (Binaries) - http://forum.princed.org/viewtopic.php?f=70&t=3583
+* PR - Princed Resources (Code) - https://github.com/NagyD/PR
 * Prince of Persia Custom Levels - http://www.popot.org/custom_levels.php
 * Prince of Persia for Roku - https://github.com/lvcabral/Prince-of-Persia-Roku
 * SpriteSheetPacker - https://spritesheetpacker.codeplex.com/
