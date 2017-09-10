@@ -1,4 +1,4 @@
-#Changelog
+# Changelog
 
 ##### v1.1.2 - 23-Ago-2016 - Tiles Palettes, Doors, Slicer and Potions
 * Add: Support for different palettes on tiles (DOS 1.3 & 1.4)
